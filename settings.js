@@ -9,5 +9,5 @@ window.SETTINGS = {
   siteTitle: "Unfolding Letters",
   from: "Your Name",
   passcode: "",
-  repo: "YOURUSERNAME/open-when"
+  repo: "JinalSompura0203/open-when"
 };
