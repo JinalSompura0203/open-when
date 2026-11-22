@@ -9,5 +9,7 @@ window.SETTINGS = {
   siteTitle: "Unfolding Letters",
   from: "Your Name",
   passcode: "",
-  repo: "JinalSompura0203/open-when"
+  repo: "JinalSompura0203/open-when",
+  overlayBackground: "radial-gradient(ellipse at 50% 30%, #fbefd6, #e9cc9b)",
+  overlayText: "#4a2a1a"
 };
