@@ -65,8 +65,8 @@ header span{font-size:.95rem;opacity:.8}
 .pager{display:flex;justify-content:center;align-items:center;gap:.7rem;margin-bottom:1rem}
 .dot2{width:11px;height:11px;border-radius:50%;background:#7a4a2a55}.dot2.on{background:var(--wine)}
 /* ---------- opening a letter ---------- */
-.ov{position:fixed;inset:0;background:#2a140aeb;z-index:50;display:flex;padding:1rem;overflow:auto}
-.wrap{margin:auto;text-align:center;color:#fff3e0}body.modal #stage,body.modal #app{visibility:hidden}
+.ov{position:fixed;inset:0;background:var(--ovbg,radial-gradient(ellipse at 50% 30%,#fbefd6,#e9cc9b));z-index:50;display:flex;padding:1rem;overflow:auto}
+.wrap{margin:auto;text-align:center;color:var(--ovtx,#4a2a1a)}body.modal #stage,body.modal #app{visibility:hidden}
 .E{position:relative;width:min(94vw,640px);aspect-ratio:1402/1122}.E>img:first-child{filter:drop-shadow(0 14px 22px #000a)}
 .E>img,.E>svg,.tiles{position:absolute;inset:0;width:100%;height:100%}
 .tiles{transition:transform .9s .45s ease-out;transform-origin:50% 62%}.go .tiles{transform:scale(1.09)}
@@ -99,6 +99,8 @@ const IMG={"bgd":"data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/6xaJSlACEQA
 const $=s=>document.querySelector(s),app=$('#app'),stage=$('#stage');
 const esc=s=>String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const S=window.SETTINGS||{siteTitle:'Unfolding Letters',from:'Your Name',passcode:''};let L=[],loading=true;
+if(S.overlayBackground)document.documentElement.style.setProperty('--ovbg',S.overlayBackground);
+if(S.overlayText)document.documentElement.style.setProperty('--ovtx',S.overlayText);
 function banner(m){const d=document.createElement('div');d.style.cssText='position:fixed;left:0;right:0;top:0;z-index:99;background:#7a1f2b;color:#fff;padding:.7rem 1rem;font:16px/1.3 sans-serif;text-align:center';d.textContent=m;document.body.append(d)}
 if(!window.SETTINGS)banner('settings.js was not found or has a typing error. Upload it next to index.html with exactly that name.');
 addEventListener('error',e=>{if(e.message)banner('Error: '+e.message)});
