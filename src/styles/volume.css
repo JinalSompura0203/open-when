@@ -1,0 +1,18 @@
+.vwrap{width:min(94vw,580px);text-align:center;background:#f8e8cbbb;border-radius:18px;padding:1rem 1rem .4rem;box-shadow:0 6px 24px #5a361a33;-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+.vwrap h2{margin:.8rem 0 0}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.6rem 1.4rem;margin:1rem auto 1.4rem;max-width:500px}
+
+/* one envelope */
+.mt{display:block;width:100%}
+.mt img{width:100%;display:block;border-radius:3px;box-shadow:0 8px 14px #0006;transition:transform .25s}
+.mt:not(.empty):hover img{transform:translateY(-4px)}
+.mt em{display:block;margin-top:.45rem;font-size:1rem;line-height:1.2}
+.mt.rd img{filter:saturate(.5) brightness(.88)}
+.mt.rd em::after{content:' ✓'}
+.empty{opacity:.35;cursor:default}
+.empty .ph{aspect-ratio:1.25;border:1.5px dashed #7a4a2a88;border-radius:4px}
+
+/* page dots */
+.pager{display:flex;justify-content:center;align-items:center;gap:.7rem;margin-bottom:1rem}
+.dot2{width:11px;height:11px;border-radius:50%;background:#7a4a2a55}
+.dot2.on{background:var(--wine)}

@@ -1,66 +1,15 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Write a letter</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&display=swap" rel="stylesheet">
-<style>
-*{box-sizing:border-box}
-body{margin:0;min-height:100vh;color:#4a2a1a;font:20px/1.45 'Cormorant Garamond',serif;background:radial-gradient(ellipse at 50% 0,#f8e6c6,#e3c392 90%) fixed;padding:1.2rem}
-main{max-width:620px;margin:0 auto;background:#fff7e8d9;border-radius:18px;padding:1.4rem;box-shadow:0 8px 28px #5a361a44}
-h1{margin:.1rem 0 1rem;color:#7a1f2b;text-align:center}
-label{display:block;font-weight:700;margin:.9rem 0 .25rem}
-input,select,textarea{width:100%;font:inherit;color:inherit;padding:.5rem .7rem;border:1px solid #b8872e;border-radius:10px;background:#fffaf0}
-textarea{min-height:220px;resize:vertical}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
-.cards{display:flex;gap:.5rem}.cards button{flex:1;padding:.45rem;border:2px solid transparent;border-radius:10px;font:inherit;font-weight:700;cursor:pointer}
-.cards .on{border-color:#7a1f2b}
-.emo button{font-size:1.5rem;background:none;border:0;cursor:pointer;opacity:.45}.emo .on{opacity:1;transform:scale(1.2)}
-#cnt{text-align:right;font-weight:700}#cnt.bad{color:#c0182d}
-.btn{display:block;width:100%;margin-top:.8rem;padding:.7rem;border:0;border-radius:99px;font:inherit;font-weight:700;cursor:pointer;background:#7a1f2b;color:#fff3e0;text-align:center;text-decoration:none}
-.btn.alt{background:#fff;color:#7a1f2b;border:2px solid #7a1f2b}
-.btn[disabled],.btn.off{opacity:.4;pointer-events:none}
-small{display:block;margin-top:.8rem;text-align:center}
-details{margin-top:.9rem}summary{cursor:pointer;font-weight:700}
-</style></head><body>
-<main>
-<h1>Write a letter</h1>
-<label for="ti">Title</label><input id="ti" maxlength="60" placeholder="Open when you miss me">
-<div class="row"><div><label for="vo">Volume</label><select id="vo"></select></div><div><label for="no">Letter number</label><select id="no"></select></div></div>
-<label>Card colour</label><div class="cards" id="cards"></div>
-<label for="tx">Your letter <span style="font-weight:400">(up to 200 words)</span></label>
-<textarea id="tx" placeholder="Write here…"></textarea><div id="cnt">0 / 200 words</div>
-<label>Stickers (optional)</label><div class="emo" id="emo"></div>
-<details><summary>Add a photo or GIF link (optional)</summary>
-<label for="ph">Photo link (https://…)</label><input id="ph"><label for="gf">GIF link (https://…)</label><input id="gf"></details>
-<a class="btn" id="send" target="_blank" rel="noopener">Send this letter to the website</a>
-<button class="btn alt" id="dl">Or download the letter file</button>
-<small id="hint"></small>
-<small><a href="index.html" style="color:#7a1f2b">← Back to the website</a></small>
-</main>
-<script src="settings.js"></script>
-<script>
-const $=s=>document.querySelector(s),S=window.SETTINGS||{};
-const COL={pink:'#f6c6d8',purple:'#d9c4f0',white:'#fff'},EMO=['❤️','🌸','✨','🥹','🤗','🌙','☀️','🎁','🫶','🦋'];
-let card='pink',stk=new Set();
-$('#vo').innerHTML=[1,2,3,4,5].map(n=>`<option value="${n}">Volume ${n}</option>`).join('');
-$('#no').innerHTML=[...Array(20)].map((_,i)=>`<option value="${i+1}">Letter ${i+1}</option>`).join('');
-$('#cards').innerHTML=Object.keys(COL).map(c=>`<button data-c="${c}" style="background:${COL[c]}" class="${c==card?'on':''}">${c}</button>`).join('');
-$('#cards').onclick=e=>{const c=e.target.dataset.c;if(!c)return;card=c;document.querySelectorAll('#cards button').forEach(b=>b.classList.toggle('on',b.dataset.c==c))};
-$('#emo').innerHTML=EMO.map(e=>`<button type="button">${e}</button>`).join('');
-$('#emo').onclick=e=>{const s=e.target.textContent;if(e.target.tagName!='BUTTON')return;stk.has(s)?stk.delete(s):stk.add(s);e.target.classList.toggle('on')};
-const words=()=>($('#tx').value.trim().match(/\S+/g)||[]).length;
-const pad=n=>String(n).padStart(2,'0');
-const fname=()=>`vol${$('#vo').value}-letter${pad($('#no').value)}.txt`;
-function content(){const h=['title: '+$('#ti').value.trim(),'card: '+card];if(stk.size)h.push('stickers: '+[...stk].join(' '));
- if($('#ph').value.trim())h.push('photo: '+$('#ph').value.trim());if($('#gf').value.trim())h.push('gif: '+$('#gf').value.trim());
- return h.join('\n')+'\n---\n'+$('#tx').value.trim()+'\n'}
-function check(){const n=words(),ok=n>0&&n<=200&&$('#ti').value.trim();
- $('#cnt').textContent=n+' / 200 words';$('#cnt').className=n>200?'bad':'';
- const repo=(S.repo||'').trim(),has=repo&&!/YOURUSERNAME/.test(repo);
- $('#send').classList.toggle('off',!ok||!has);$('#dl').disabled=!ok;
- $('#send').href=has?`https://github.com/${repo}/new/main?filename=${encodeURIComponent('letters/'+fname())}&value=${encodeURIComponent(content())}`:'#';
- $('#hint').textContent=n>200?'Please shorten the letter to 200 words or fewer.':!ok?'Add a title and write your letter.':!has?'To use the first button, put your GitHub username and repository name in settings.js (repo).':'GitHub opens with your letter ready. Just click “Commit changes” there. It will be saved as '+fname()+'.'}
-['ti','tx','vo','no','ph','gf'].forEach(i=>$('#'+i).addEventListener('input',check));$('#cards').addEventListener('click',check);$('#emo').addEventListener('click',check);
-$('#dl').onclick=()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([content()],{type:'text/plain'}));a.download=fname();a.click()};
-check();
-</script></body></html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Write a letter</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/write/main.jsx"></script>
+  </body>
+</html>

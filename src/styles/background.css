@@ -1,0 +1,32 @@
+/* The "living" background: small parts of the picture gently move. */
+#stage{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:0;pointer-events:none;overflow:hidden}
+#stage .bgi{position:absolute;inset:0;width:100%;height:100%}
+.sp{position:absolute;background-repeat:no-repeat;-webkit-mask-image:radial-gradient(ellipse closest-side,#000 64%,#0000 100%);mask-image:radial-gradient(ellipse closest-side,#000 64%,#0000 100%)}
+
+/* hearts */
+.heart{animation:bloom 4.2s ease-in-out infinite}
+.heart.b{animation-delay:1.8s}
+@keyframes bloom{0%,100%{transform:scale(1);filter:brightness(1)}45%{transform:scale(1.1);filter:brightness(1.12) saturate(1.2)}}
+
+/* stamp */
+.stamp{animation:zoom 5.5s ease-in-out infinite}
+@keyframes zoom{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+
+/* wax seal, its cracks and falling chips */
+.seal{animation:wob 3.4s ease-in-out infinite}
+@keyframes wob{0%,100%{transform:rotate(-1.2deg)}50%{transform:rotate(1.2deg) scale(1.015)}}
+.crk{position:absolute;fill:none;stroke:#f0b3ba;stroke-width:1.1;stroke-linecap:round;opacity:0;animation:crk 9s ease-in-out infinite}
+@keyframes crk{0%,18%{opacity:0}28%,52%{opacity:.55}62%,100%{opacity:0}}
+.chip{position:absolute;background:#7c1a28;border-radius:40% 60% 50% 50%;opacity:0;animation:chip 9s ease-in infinite}
+@keyframes chip{0%,40%{opacity:0;transform:translate(0,0) rotate(0)}48%{opacity:1}85%{opacity:0;transform:translate(var(--x),var(--y)) rotate(160deg)}100%{opacity:0}}
+
+/* ink drop from the pen nib */
+.ink{position:absolute;aspect-ratio:.72;border-radius:50% 50% 50% 50%/66% 66% 34% 34%;background:radial-gradient(circle at 35% 30%,#6b4a3a,#1c0b06 55%);transform-origin:50% 0;opacity:0;animation:drip 6.5s ease-in infinite}
+@keyframes drip{0%{opacity:0;transform:translate(-50%,0) scale(.1)}16%{opacity:1;transform:translate(-50%,0) scale(1)}28%{opacity:1;transform:translate(-50%,0) scale(1.1,1.25)}52%{opacity:1;transform:translate(-50%,var(--fall)) scale(.9,1.1)}56%,100%{opacity:0;transform:translate(-50%,var(--fall)) scale(.7)}}
+.dot{position:absolute;aspect-ratio:1;border-radius:50%;background:radial-gradient(#2a1208 35%,#2a120844 70%,#0000 72%);opacity:0;transform:translate(-50%,-50%) scale(.2);animation:dot 6.5s ease-out infinite}
+@keyframes dot{0%,52%{opacity:0;transform:translate(-50%,-50%) scale(.2)}58%{opacity:.9;transform:translate(-50%,-50%) scale(1)}80%{opacity:.5;transform:translate(-50%,-50%) scale(1.5)}100%{opacity:0;transform:translate(-50%,-50%) scale(1.6)}}
+
+/* clock hand */
+.hand{position:absolute;background:linear-gradient(#7a1f2b,#5a1018);border-radius:2px;transform-origin:50% 100%;animation:tick 60s steps(60) infinite;box-shadow:0 0 2px #0006}
+.hand::after{content:'';position:absolute;left:-90%;bottom:-6%;width:280%;aspect-ratio:1;border-radius:50%;background:#5a1018}
+@keyframes tick{to{transform:rotate(360deg)}}
